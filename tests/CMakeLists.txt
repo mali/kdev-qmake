@@ -11,10 +11,10 @@ set(qmakefiletest_SRCS test_qmakefile.cpp
     ../debug.cpp
     ../qmakefile.cpp ../qmakeincludefile.cpp ../qmakeprojectfile.cpp ../qmakefilevisitor.cpp
     ../variablereferenceparser.cpp ../qmakemkspecs.cpp
-    ../qmakeconfig.cpp )
+    ../qmakeconfig.cpp ) 
 
 set(qmakeprojecttest_SRCS test_qmakeproject.cpp
-    ../qmakeconfig.cpp )
+    ../qmakeconfig.cpp ../debug.cpp)
 
 add_executable(qmakefiletest ${qmakefiletest_SRCS})
 add_test(qmakefiletest qmakefiletest)
