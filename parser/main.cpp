@@ -22,29 +22,38 @@
 
 #include <QtCore/QString>
 
-#include <kcmdlineargs.h>
+
 #include <kurl.h>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 
 int main( int argc, char* argv[] )
 {
-    KCmdLineArgs::init( argc, argv, "QMake Parser", 0, ki18n("qmake-parser"), "4.0.0", ki18n("Parse QMake project files"));
+    KAboutData aboutData( QLatin1String("QMake Parser"), i18n("qmake-parser"), QLatin1String("4.0.0"));
+    aboutData.setShortDescription(i18n("Parse QMake project files"));
+    QApplication app(argc, argv);
+    QCommandLineParser parser;
+    KAboutData::setApplicationData(aboutData);
+    parser.addVersionOption();
+    parser.addHelpOption();
+    //PORTING SCRIPT: adapt aboutdata variable if necessary
+    aboutData.setupCommandLine(&parser);
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
 
-    KCmdLineOptions options;
-    options.add("!debug", ki18n("Enable output of the debug AST"));
-    options.add("!+files", ki18n("QMake project files"));
-    KCmdLineArgs::addCmdLineOptions(options);
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("!debug"), i18n("Enable output of the debug AST")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("!+files"), i18n("QMake project files")));
 
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-    if( args->count() < 1 )
+    if( parser.positionalArguments().count() < 1 )
     {
         KCmdLineArgs::usage(0);
     }
 
     int debug = 0;
-    if( args->isSet("debug") )
+    if( parser.isSet("debug") )
         debug = 1;
-    for( int i = 0 ; i < args->count() ; i++ )
+    for( int i = 0 ; i < parser.positionalArguments().count() ; i++ )
     {
         QMake::Driver d;
         if( !d.readFile( args->url(i).toLocalFile() ) )
