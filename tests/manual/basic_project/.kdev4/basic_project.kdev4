@@ -6,3 +6,13 @@ VersionControlSupport=kdevgit
 
 [QMake_Builder]
 Build_Folder=/tmp/some/path
+Build_Type=0
+Extra_Arguments=
+Install_Prefix=
+QMake_Binary=/usr/bin/qmake-qt5
+
+[QMake_Builder][/tmp/some/path]
+Build_Type=0
+Extra_Arguments=
+Install_Prefix=
+QMake_Binary=/usr/bin/qmake-qt5
